@@ -1,12 +1,12 @@
 <div class="vertical-menu">
     <!-- LOGO -->
     <div class="navbar-brand-box">
-        <a href="index.html" class="logo logo-dark"> <span class="logo-sm">
+        <a href="{{ url('admin/dashbord') }}" class="logo logo-dark"> <span class="logo-sm">
                 <img src="{{ asset('assets/images/logo-sm.png') }}" alt="" height="22">
             </span> <span class="logo-lg">
                 <img src="{{ asset('assets/images/logo-dark.png') }}" alt="" height="20">
             </span> </a>
-        <a href="index.html" class="logo logo-light"> <span class="logo-sm">
+        <a href="{{ url('admin/dashbord') }}" class="logo logo-light"> <span class="logo-sm">
                 <img src="{{ asset('assets/images/logo-sm.png') }}" alt="" height="22">
             </span> <span class="logo-lg">
                 <img src="{{ asset('assets/images/logo-light.png') }}" alt="" height="20">
@@ -21,12 +21,12 @@
             <ul class="metismenu list-unstyled" id="side-menu">
                 <li class="menu-title">Menu</li>
                 <li>
-                    <a href="index.html"> <i class="iconify " data-icon="uil-home-alt"
+                    <a href="{{ url('admin/dashbord') }}"> <i class="iconify " data-icon="uil-home-alt"
                             data-inline="false"></i> <span
-                            class="badge rounded-pill bg-primary float-end">01</span> <span>Dashboard</span>
+                            class="badge rounded-pill bg-primary float-end">01</span> <span>Tableau de Bord</span>
                     </a>
                 </li>
-                <li>
+                {{-- <li>
                     <a href="javascript: void(0);" class="has-arrow waves-effect"><i class="iconify"
                             data-icon="uil-window-section" data-inline="false"></i> <span>Layouts</span> </a>
                     <ul class="sub-menu" aria-expanded="true">
@@ -219,7 +219,7 @@
                             </ul>
                         </li>
                     </ul>
-                </li>
+                </li> --}}
             </ul>
         </div>
         <!-- Sidebar -->
