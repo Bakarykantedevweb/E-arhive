@@ -38,6 +38,36 @@
                         <span>Position</span> 
                     </a>
                 </li>
+                <li>
+                    <a href="{{ url('admin/regimes') }}" class="waves-effect"> 
+                        <i class="uil-calender"></i>
+                        <span>Regime</span> 
+                    </a>
+                </li>
+                <li>
+                    <a href="{{ url('admin/classes') }}" class="waves-effect"> 
+                        <i class="uil-calender"></i>
+                        <span>Classe</span> 
+                    </a>
+                </li>
+                <li>
+                    <a href="{{ url('admin/echelons') }}" class="waves-effect"> 
+                        <i class="uil-calender"></i>
+                        <span>Echelon</span> 
+                    </a>
+                </li>
+                <li>
+                    <a href="{{ url('admin/natures') }}" class="waves-effect"> 
+                        <i class="uil-calender"></i>
+                        <span>Nature</span> 
+                    </a>
+                </li>
+                <li>
+                    <a href="{{ url('admin/mentions') }}" class="waves-effect"> 
+                        <i class="uil-calender"></i>
+                        <span>Mention</span> 
+                    </a>
+                </li>
             </ul>
         </div>
         <!-- Sidebar -->

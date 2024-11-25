@@ -1,8 +1,13 @@
 <?php
 
 use App\Http\Controllers\Admin\AdminDashboardController;
+use App\Http\Controllers\Admin\ClasseController;
+use App\Http\Controllers\Admin\EchelonController;
+use App\Http\Controllers\Admin\MentionController;
 use App\Http\Controllers\Admin\MinistereController;
+use App\Http\Controllers\Admin\NatureController;
 use App\Http\Controllers\Admin\PositionController;
+use App\Http\Controllers\Admin\RegimeController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -38,4 +43,33 @@ Route::prefix('admin')->group(function(){
     Route::controller(PositionController::class)->group(function(){
         Route::get('positions','index');
     });
+
+     // Route Regime
+  Route::controller(RegimeController::class)->group(function(){
+    Route::get('regimes','index');
 });
+
+  // Route Classe
+  Route::controller(ClasseController::class)->group(function(){
+    Route::get('classes','index');
+});
+
+
+  // Route Echelon
+  Route::controller(EchelonController::class)->group(function(){
+    Route::get('echelons','index');
+});
+
+ // Route Nature
+ Route::controller(NatureController::class)->group(function(){
+    Route::get('natures','index');
+});
+
+ // Route Mention
+ Route::controller(MentionController::class)->group(function(){
+    Route::get('mentions','index');
+});
+});
+
+
+ 
