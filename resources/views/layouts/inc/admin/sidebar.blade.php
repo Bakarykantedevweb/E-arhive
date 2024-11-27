@@ -68,6 +68,12 @@
                         <span>Mention</span> 
                     </a>
                 </li>
+                <li>
+                    <a href="{{ url('admin/cadres') }}" class="waves-effect"> 
+                        <i class="uil-calender"></i>
+                        <span>Cadre</span> 
+                    </a>
+                </li>
             </ul>
         </div>
         <!-- Sidebar -->
