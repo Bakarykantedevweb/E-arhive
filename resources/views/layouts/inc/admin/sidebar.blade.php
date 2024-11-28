@@ -27,46 +27,35 @@
                     </a>
                 </li>
                 <li>
-                    <a href="{{ url('admin/ministeres') }}" class="waves-effect"> 
-                        <i class="uil-calender"></i>
-                        <span>Ministeres</span> 
-                    </a>
+                    <a href="javascript: void(0);" class="has-arrow waves-effect"> <i class="uil-user-circle"></i>
+                        <span>Actes Administratifs</span> </a>
+                    <ul class="sub-menu" aria-expanded="false">
+                        <li><a href="{{ url('admin/ministeres') }}">Ministere</a></li>
+                        <li><a href="{{ url('admin/positions') }}">Position</a></li>
+                        <li><a href="{{ url('admin/cadres') }}">Cadre</a></li>
+                        <li><a href="{{ url('admin/categories') }}">Categorie</a></li>
+                        <li><a href="{{ url('admin/corps') }}">Corps</a></li>
+                    </ul>
                 </li>
                 <li>
-                    <a href="{{ url('admin/positions') }}" class="waves-effect"> 
-                        <i class="uil-calender"></i>
-                        <span>Position</span> 
-                    </a>
+                    <a href="javascript: void(0);" class="has-arrow waves-effect"> <i class="uil-file-alt"></i>
+                        <span>Actes aux Agents</span> </a>
+                    <ul class="sub-menu" aria-expanded="false">
+                        <li><a href="{{ url('admin/regimes') }}">Regime</a></li>
+                        <li><a href="{{ url('admin/classes') }}">Classe</a></li>
+                        <li><a href="{{ url('admin/echelons') }}">Echelon</a></li>
+                        <li><a href="{{ url('admin/natures') }}">Nature</a></li>
+                        <li><a href="{{ url('admin/mentions') }}">Mention</a></li>
+                    </ul>
                 </li>
                 <li>
-                    <a href="{{ url('admin/regimes') }}" class="waves-effect"> 
-                        <i class="uil-calender"></i>
-                        <span>Regime</span> 
-                    </a>
-                </li>
-                <li>
-                    <a href="{{ url('admin/classes') }}" class="waves-effect"> 
-                        <i class="uil-calender"></i>
-                        <span>Classe</span> 
-                    </a>
-                </li>
-                <li>
-                    <a href="{{ url('admin/echelons') }}" class="waves-effect"> 
-                        <i class="uil-calender"></i>
-                        <span>Echelon</span> 
-                    </a>
-                </li>
-                <li>
-                    <a href="{{ url('admin/natures') }}" class="waves-effect"> 
-                        <i class="uil-calender"></i>
-                        <span>Nature</span> 
-                    </a>
-                </li>
-                <li>
-                    <a href="{{ url('admin/mentions') }}" class="waves-effect"> 
-                        <i class="uil-calender"></i>
-                        <span>Mention</span> 
-                    </a>
+                    <a href="javascript: void(0);" class="has-arrow waves-effect"> <i class="uil-list-ul"></i> <span>Dossiers Personnel</span> </a>
+                    <ul class="sub-menu" aria-expanded="false">
+                        <li><a href="#">Arrete</a></li>
+                        <li><a href="#">Agents</a></li>
+                        <li><a href="#"></a></li>
+                        <li><a href="#"></a></li>
+                    </ul>
                 </li>
             </ul>
         </div>
