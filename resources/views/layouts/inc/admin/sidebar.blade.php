@@ -51,7 +51,7 @@
                 <li>
                     <a href="javascript: void(0);" class="has-arrow waves-effect"> <i class="uil-list-ul"></i> <span>Dossiers Personnel</span> </a>
                     <ul class="sub-menu" aria-expanded="false">
-                        <li><a href="#">Arrete</a></li>
+                        <li><a href="{{ url('admin/arretes') }}">Arrete</a></li>
                         <li><a href="#">Agents</a></li>
                         <li><a href="#"></a></li>
                         <li><a href="#"></a></li>

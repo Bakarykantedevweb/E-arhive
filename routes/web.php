@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Admin\AdminDashboardController;
+use App\Http\Controllers\Admin\ArreteController;
 use App\Http\Controllers\Admin\CadreController;
 use App\Http\Controllers\Admin\CategorieController;
 use App\Http\Controllers\Admin\ClasseController;
@@ -87,4 +88,9 @@ Route::prefix('admin')->middleware(['auth'])->group(function () {
      Route::controller(CorpsController::class)->group(function () {
         Route::get('corps', 'index');
     });
+
+     // Route arrete
+     Route::controller(ArreteController::class)->group(function () {
+        Route::get('arretes', 'index');
+   });
 });
