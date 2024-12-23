@@ -1,6 +1,5 @@
 <div>
-   @include('livewire.admin.arrete.modal') 
-    <!-- start page title -->
+    @include('livewire.admin.test.modal')
     <div class="row">
         <div class="col-12">
             <div class="page-title-box d-flex align-items-center justify-content-between">
@@ -39,10 +38,10 @@
                                 <tr>
                                     <td>{{ $items->numero }}</td>
                                     <td>{{ $items->date_signature }}</td>
-                                   <td>{{ $items->nature->nom }}</td>
-                                   <td>{{ $items->mention->nom }}</td>
+                                    <td>{{ $items->nature->nom }}</td>
+                                    <td>{{ $items->mention->nom }}</td>
 
-                                    <td><button type="button" wire:click="editArrete({{ $items->id }})"
+                                    <td><button type="button" wire:click="edit({{ $items->id }})"
                                             data-bs-toggle="modal" data-bs-target=".add"
                                             class="btn btn-primary">Edit</button></td>
                                 </tr>
@@ -54,4 +53,3 @@
         </div> <!-- end col -->
     </div>
 </div>
-
