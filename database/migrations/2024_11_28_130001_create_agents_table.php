@@ -19,6 +19,19 @@ return new class extends Migration
         Schema::create('agents', function (Blueprint $table) {
             $table->id();
             $table->string('matricule');
+            $table->string('nom');
+            $table->string('prenom');
+            $table->string('email');
+            $table->string('telephone');
+            $table->string('photo');
+            $table->date('date_naissance');
+            $table->string('lieu');
+            $table->string('sexe');
+            $table->string('date_recrutement');
+            $table->string('date_corps');
+            $table->string('date_position');
+            $table->string('date_ministere');
+            $table->string('date_avancement');
             $table->foreignIdFor(Position::class)->constrained();
             $table->foreignIdFor(Cadre::class)->constrained();
             $table->foreignIdFor(Corps::class)->constrained();
