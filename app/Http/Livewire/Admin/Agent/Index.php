@@ -2,6 +2,7 @@
 
 namespace App\Http\Livewire\Admin\Agent;
 
+use Carbon\Carbon;
 use App\Models\Agent;
 use App\Models\Cadre;
 use App\Models\Corps;
@@ -9,13 +10,31 @@ use App\Models\Regimes;
 use Livewire\Component;
 use App\Models\Position;
 use App\Models\Ministere;
+use Livewire\WithFileUploads;
 
 class Index extends Component
 {
-    public $agent_id, $matricule,$nom, $prenom,$email,$telephone,$photo, $date_naissance,
-    $lieu_naissance,$sexe,$date_recrutement,$date_corps,$date_position,$date_ministere,$date_avancement, 
-    $position_id, $cadre_id, $corps_id,$regime_id,$ministere_id;
-    public $agents, $positions, $cadres,$corps,$regimes,$ministeres;
+    use WithFileUploads;
+    public $agent_id, $matricule, $nom, $prenom, $email, $telephone, $photo, $date_naissance,
+        $lieu_naissance, $sexe, $date_recrutement, $date_corps, $date_position, $date_ministere, $date_avancement,
+        $position_id, $cadre_id, $corps_id, $regime_id, $ministere_id;
+    public $agents, $positions, $cadres, $corps, $regimes, $ministeres;
+
+    public $afficherListes = True;
+    public $createAgent = False;
+
+    public function create()
+    {
+        $this->createAgent = True;
+        $this->afficherListes = False;
+    }
+
+    public function retour()
+    {
+        $this->afficherListes = True;
+        $this->createAgent = False;
+    }
+
     public function mount()
     {
         $this->agents = Agent::get();
@@ -24,9 +43,6 @@ class Index extends Component
         $this->corps = Corps::get();
         $this->regimes = Regimes::get();
         $this->ministeres = Ministere::get();
-
-
-
     }
     protected function rules()
     {
@@ -36,7 +52,7 @@ class Index extends Component
             'prenom' => 'required|string',
             'email' => 'required|email',
             'telephone' => 'required|telephone',
-            'photo' => 'required|date',
+            // 'photo' => 'required|date',
             'date_naissance' => 'required|date',
             'lieu_naissance' => 'required|date',
             'sexe' => 'required|string',
@@ -70,7 +86,12 @@ class Index extends Component
         $agent->nom = $validatedData['nom'];
         $agent->prenom = $validatedData['prenom'];
         $agent->email = $validatedData['telephone'];
-        $agent->photo = $validatedData['photo'];
+         // Gestion de la photo
+         $imageName = Carbon::now()->timestamp . '.' . $this->photo->extension();
+         $this->photo->storeAs('admin/agent/', $imageName);
+         $agent->photo = $imageName;
+         $agent->save();
+         
         $agent->date_naissance = $validatedData['date_naissance'];
         $agent->lieu_naissance = $validatedData['lieu_naissance'];
         $agent->sexe = $validatedData['sexe'];
@@ -84,7 +105,7 @@ class Index extends Component
         $agent->corps_id = $validatedData['corps_id'];
         $agent->regime_id = $validatedData['regime_id'];
         $agent->ministere_id = $validatedData['ministere_id'];
-       $agent->save();
+        $agent->save();
         toastr()->success('Operation effectuée avec Success');
         return redirect('admin/agents');
     }
@@ -112,10 +133,8 @@ class Index extends Component
             $this->corps_id = $agent->corps_id;
             $this->regime_id = $agent->regime_id;
             $this->ministere_id = $agent->ministere_id;
-
-    
+        }
     }
-}
 
     public function closeModal()
     {
@@ -142,9 +161,6 @@ class Index extends Component
         $this->corps_id = '';
         $this->regime_id = '';
         $this->ministere_id = '';
-
-
-
     }
     public function render()
     {
