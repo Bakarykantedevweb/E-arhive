@@ -2,6 +2,7 @@
 
 namespace App\Http\Livewire\Admin\Agent;
 
+use Log;
 use Carbon\Carbon;
 use App\Models\Agent;
 use App\Models\Cadre;
@@ -60,11 +61,11 @@ class Index extends Component
             'date_position' => 'required|date',
             'date_ministere' => 'required|date',
             'date_avancement' => 'required|date',
-            'position_id' => 'required|exists:positions,id',
-            'cadre_id' => 'required|exists:cadres,id',
-            'corps_id' => 'required|exists:corps,id',
-            'regime_id' => 'required|exists:regimes,id',
-            'ministere_id' => 'required|exists:ministeres,id',
+            'position_id' => 'required|integer',
+            'cadre_id' => 'required|integer',
+            'corps_id' => 'required|integer',
+            'regime_id' => 'required|integer',
+            'ministere_id' => 'required|integer',
 
 
         ];
@@ -75,9 +76,12 @@ class Index extends Component
     }
 
     public function SaveAgent()
-    {
+{
+    try {
+        // Validation des données
         $validatedData = $this->validate();
 
+        // Création d'un nouvel agent
         $agent = new Agent();
         $agent->matricule = '00000'; // Temporaire
         $agent->nom = $validatedData['nom'];
@@ -85,14 +89,16 @@ class Index extends Component
         $agent->email = $validatedData['email'];
         $agent->telephone = $validatedData['telephone'];
 
+        // Gestion de l'upload de la photo
         if ($this->photo) {
             $imageName = Carbon::now()->timestamp . '.' . $this->photo->extension();
             $this->photo->storeAs('admin/agent/', $imageName);
             $agent->photo = $imageName;
         }
 
+        // Remplissage des autres champs
         $agent->date_naissance = $validatedData['date_naissance'];
-        $agent->lieu_naissance = $validatedData['lieu_naissance'];
+        $agent->lieu = $validatedData['lieu_naissance'];
         $agent->sexe = $validatedData['sexe'];
         $agent->date_recrutement = $validatedData['date_recrutement'];
         $agent->date_corps = $validatedData['date_corps'];
@@ -102,18 +108,29 @@ class Index extends Component
         $agent->position_id = $validatedData['position_id'];
         $agent->cadre_id = $validatedData['cadre_id'];
         $agent->corps_id = $validatedData['corps_id'];
-        $agent->regime_id = $validatedData['regime_id'];
+        $agent->regimes_id = $validatedData['regime_id'];
         $agent->ministere_id = $validatedData['ministere_id'];
 
+        // Enregistrement dans la base de données
         $agent->save();
 
-        $agent->update([
-            'matricule' => 'MA-' . str_pad($agent->id, 3, '0', STR_PAD_LEFT),
-        ]);
+         // Mise à jour du matricule
+         $matricule = 'MA-' . str_pad($agent->id, 3, '0', STR_PAD_LEFT);
+         $agent->matricule = $matricule;
+         $agent->save();
 
+
+        // Notification de succès
         toastr()->success('Opération effectuée avec succès');
         return redirect('admin/agents');
+    } catch (\Exception $e) {
+        dd($e->getMessage());
+        // Notification de l'erreur à l'utilisateur
+        toastr()->error('Une erreur est survenue : ' . $e->getMessage());
+        return redirect()->back()->withInput();
     }
+}
+
 
 
     public function edit($id)
