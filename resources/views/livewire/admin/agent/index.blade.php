@@ -86,13 +86,6 @@
                         <form wire:submit.prevent="SaveAgent">
                             <div class="row">
                                 <div class="form-group col-md-6">
-                                    <label>Matricule<span class="text-danger">*</span></label>
-                                    <input class="form-control" type="text" wire:model="matricule">
-                                    @error('matricule')
-                                        <span class="text-danger">{{ $message }}</span>
-                                    @enderror
-                                </div>
-                                <div class="form-group col-md-6">
                                     <label>Nom<span class="text-danger">*</span></label>
                                     <input class="form-control" type="text" wire:model="nom">
                                     @error('nom')
@@ -108,14 +101,14 @@
                                 </div>
                                 <div class="form-group col-md-6">
                                     <label>Email<span class="text-danger">*</span></label>
-                                    <input class="form-control" type="date" wire:model="email">
+                                    <input class="form-control" type="email" wire:model="email">
                                     @error('email')
                                         <span class="text-danger">{{ $message }}</span>
                                     @enderror
                                 </div>
                                 <div class="form-group col-md-6">
                                     <label>Telephone<span class="text-danger">*</span></label>
-                                    <input class="form-control" type="date" wire:model="telephone">
+                                    <input class="form-control" type="text" wire:model="telephone">
                                     @error('telephone')
                                         <span class="text-danger">{{ $message }}</span>
                                     @enderror
@@ -128,7 +121,7 @@
                                     @enderror
                                 </div>
                                 <div class="form-group col-md-6">
-                                    <label>Date Naissace<span class="text-danger">*</span></label>
+                                    <label>Date Naissance<span class="text-danger">*</span></label>
                                     <input class="form-control" type="date" wire:model="date_naissance">
                                     @error('date_naissance')
                                         <span class="text-danger">{{ $message }}</span>
@@ -136,22 +129,19 @@
                                 </div>
                                 <div class="form-group col-md-6">
                                     <label>Lieu de Naissance<span class="text-danger">*</span></label>
-                                    <input class="form-control" type="date" wire:model="lieu_naissance">
+                                    <input class="form-control" type="text" wire:model="lieu_naissance">
                                     @error('lieu_naissance')
                                         <span class="text-danger">{{ $message }}</span>
                                     @enderror
                                 </div>
                                 <div class="form-group col-md-6">
                                     <label>Sexe<span class="text-danger">*</span></label>
-                                    <input class="form-control" type="date" wire:model="sexe">
+                                    <select wire:model="sexe" class="form-control">
+                                        <option value="">---</option>
+                                        <option value="Masculin">Masculin</option>
+                                        <option value="Feminin">Feminin</option>
+                                    </select>
                                     @error('sexe')
-                                        <span class="text-danger">{{ $message }}</span>
-                                    @enderror
-                                </div>
-                                <div class="form-group col-md-6">
-                                    <label>Date de recrutement<span class="text-danger">*</span></label>
-                                    <input class="form-control" type="date" wire:model="date_recrutement">
-                                    @error('date_recrutement')
                                         <span class="text-danger">{{ $message }}</span>
                                     @enderror
                                 </div>
@@ -201,15 +191,8 @@
                                     @enderror
                                 </div>
                                 <div class="form-group col-md-6">
-                                    <label>Date Corps<span class="text-danger">*</span></label>
-                                    <input class="form-control" type="date" wire:model="date_corps">
-                                    @error('date_corps')
-                                        <span class="text-danger">{{ $message }}</span>
-                                    @enderror
-                                </div>
-                                <div class="form-group col-md-6">
                                     <label>Ministre<span class="text-danger">*</span></label>
-                                    <select wire:model="ministre_id" class="form-control">
+                                    <select wire:model="ministere_id" class="form-control">
                                         <option value="">---</option>
                                         @foreach ($ministeres as $ministere)
                                             <option value="{{ $ministere->id }}">{{ $ministere->nom }}</option>
@@ -221,7 +204,7 @@
                                 </div>
                                 <div class="form-group col-md-6">
                                     <label>Date Ministere<span class="text-danger">*</span></label>
-                                    <input class="form-control" type="date" wire:model="date_position">
+                                    <input class="form-control" type="date" wire:model="date_ministere">
                                     @error('date_ministere')
                                         <span class="text-danger">{{ $message }}</span>
                                     @enderror
@@ -241,14 +224,14 @@
                                             <option value="{{ $regime->id }}">{{ $regime->nom }}</option>
                                         @endforeach
                                     </select>
-                                    @error('ministere_id')
+                                    @error('regime_id')
                                         <span class="text-danger">{{ $message }}</span>
                                     @enderror
                                 </div>
                             </div>
                             <br>
                             <button class="btn btn-primary"
-                                type="submit">{{ $this->agent_id ? 'Soumettre' : 'Modifier' }}</button>
+                                type="submit">Soumettre</button>
                         </form>
                     </div>
                 </div>

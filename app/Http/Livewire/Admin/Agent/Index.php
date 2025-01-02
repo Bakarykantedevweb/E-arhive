@@ -47,25 +47,24 @@ class Index extends Component
     protected function rules()
     {
         return [
-            'matricule' => 'required|string',
-            'nom' => 'required|string',
-            'prenom' => 'required|string',
-            'email' => 'required|email',
-            'telephone' => 'required|telephone',
-            // 'photo' => 'required|date',
+            'nom' => 'required|string|max:255',
+            'prenom' => 'required|string|max:255',
+            'email' => 'required|email|unique:agents,email',
+            'telephone' => 'required|string|max:15',
+            //'photo' => 'required|image|max:1024', // Limite à 1 Mo
             'date_naissance' => 'required|date',
-            'lieu_naissance' => 'required|date',
-            'sexe' => 'required|string',
+            'lieu_naissance' => 'required|string|max:255',
+            'sexe' => 'required|in:Masculin,Feminin',
             'date_recrutement' => 'required|date',
             'date_corps' => 'required|date',
             'date_position' => 'required|date',
             'date_ministere' => 'required|date',
             'date_avancement' => 'required|date',
-            'position_id' => 'required|integer',
-            'cadre_id' => 'required|integer',
-            'corps_id' => 'required|integer',
-            'regime_id' => 'required|integer',
-            'ministere_id' => 'required|integer',
+            'position_id' => 'required|exists:positions,id',
+            'cadre_id' => 'required|exists:cadres,id',
+            'corps_id' => 'required|exists:corps,id',
+            'regime_id' => 'required|exists:regimes,id',
+            'ministere_id' => 'required|exists:ministeres,id',
 
 
         ];
@@ -78,20 +77,20 @@ class Index extends Component
     public function SaveAgent()
     {
         $validatedData = $this->validate();
+
         $agent = new Agent();
-        if ($this->agent_id) {
-            $agent = Agent::find($this->agent_id);
-        }
-        $agent->matricule = $validatedData['matricule'];
+        $agent->matricule = '00000'; // Temporaire
         $agent->nom = $validatedData['nom'];
         $agent->prenom = $validatedData['prenom'];
-        $agent->email = $validatedData['telephone'];
-         // Gestion de la photo
-         $imageName = Carbon::now()->timestamp . '.' . $this->photo->extension();
-         $this->photo->storeAs('admin/agent/', $imageName);
-         $agent->photo = $imageName;
-         $agent->save();
-         
+        $agent->email = $validatedData['email'];
+        $agent->telephone = $validatedData['telephone'];
+
+        if ($this->photo) {
+            $imageName = Carbon::now()->timestamp . '.' . $this->photo->extension();
+            $this->photo->storeAs('admin/agent/', $imageName);
+            $agent->photo = $imageName;
+        }
+
         $agent->date_naissance = $validatedData['date_naissance'];
         $agent->lieu_naissance = $validatedData['lieu_naissance'];
         $agent->sexe = $validatedData['sexe'];
@@ -105,10 +104,17 @@ class Index extends Component
         $agent->corps_id = $validatedData['corps_id'];
         $agent->regime_id = $validatedData['regime_id'];
         $agent->ministere_id = $validatedData['ministere_id'];
+
         $agent->save();
-        toastr()->success('Operation effectuée avec Success');
+
+        $agent->update([
+            'matricule' => 'MA-' . str_pad($agent->id, 3, '0', STR_PAD_LEFT),
+        ]);
+
+        toastr()->success('Opération effectuée avec succès');
         return redirect('admin/agents');
     }
+
 
     public function edit($id)
     {
