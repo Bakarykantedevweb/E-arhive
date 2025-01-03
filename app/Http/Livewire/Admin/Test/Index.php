@@ -2,14 +2,17 @@
 
 namespace App\Http\Livewire\Admin\Test;
 
+use Carbon\Carbon;
 use App\Models\Arrete;
 use App\Models\Nature;
 use App\Models\Mention;
 use Livewire\Component;
+use Livewire\WithFileUploads;
 
 class Index extends Component
 {
-    public $arrete_id, $numero, $date_signature, $nature_id, $mention_id;
+    use WithFileUploads;
+    public $arrete_id, $numero, $type,$fichier, $date_signature, $nature_id, $mention_id;
     public $arretes, $natures, $mentions;
     public function mount()
     {
@@ -24,6 +27,7 @@ class Index extends Component
             'date_signature' => 'required|date',
             'nature_id' => 'required|integer',
             'mention_id' => 'required|integer',
+            'type' => 'required|string',
 
         ];
     }
@@ -39,10 +43,17 @@ class Index extends Component
         if ($this->arrete_id) {
             $arrete = Arrete::find($this->arrete_id);
         }
+        $arrete->type = $validatedData['type'];
         $arrete->numero = $validatedData['numero'];
         $arrete->date_signature = $validatedData['date_signature'];
         $arrete->nature_id = $validatedData['nature_id'];
         $arrete->mention_id = $validatedData['mention_id'];
+         // Gestion de l'upload de la fichier
+         if ($this->fichier) {
+            $imageName = Carbon::now()->timestamp . '.' . $this->fichier->extension();
+            $this->fichier->storeAs('admin/document/', $imageName);
+            $arrete->fichier = $imageName;
+        }
         $arrete->save();
         toastr()->success('Operation effectuée avec Success');
         return redirect('admin/arretes');

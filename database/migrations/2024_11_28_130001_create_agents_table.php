@@ -32,6 +32,9 @@ return new class extends Migration
             $table->string('date_position');
             $table->string('date_ministere');
             $table->string('date_avancement');
+            $table->string('acte_naissance')->nullable();
+            $table->string('nationnalite')->nullable();
+            $table->string('diplome')->nullable();
             $table->foreignIdFor(Position::class)->constrained();
             $table->foreignIdFor(Cadre::class)->constrained();
             $table->foreignIdFor(Corps::class)->constrained();

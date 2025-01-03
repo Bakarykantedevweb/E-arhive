@@ -10,6 +10,24 @@
             <div class="modal-body">
                 <form wire:submit.prevent="SaveArrete">
                     <div class="form-group">
+                        <label>Fichier<span class="text-danger">*</span></label>
+                        <input class="form-control" type="file" wire:model="fichier">
+                        @error('fichier')
+                            <span class="text-danger">{{ $message }}</span>
+                        @enderror
+                    </div>
+                    <div class="form-group">
+                        <label for="">Type Document</label>
+                        <select wire:model="type" class="form-control">
+                            <option value="---">---</option>
+                            <option value="ARRETE">ARRETE</option>
+                            <option value="DECISION">DECISION</option>
+                            <option value="DEGRET">DEGRET</option>
+                            <option value="LOI">LOI</option>
+                            <option value="ORDONNANCE">ORDONNANCE</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
                         <label>Numero<span class="text-danger">*</span></label>
                         <input class="form-control" type="text" wire:model="numero">
                         @error('numero')

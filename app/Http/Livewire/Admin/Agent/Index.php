@@ -21,8 +21,19 @@ class Index extends Component
         $position_id, $cadre_id, $corps_id, $regime_id, $ministere_id;
     public $agents, $positions, $cadres, $corps, $regimes, $ministeres;
 
+    public $agentDetail;
+
     public $afficherListes = True;
     public $createAgent = False;
+    public $profileAgent = False;
+
+    public $searchMatricule = '';
+    public $searchNom = '';
+    public $searchPrenom = '';
+
+    public $acte_naissance;
+    public $diplome;
+    public $nationnalite;
 
     public function create()
     {
@@ -38,7 +49,22 @@ class Index extends Component
 
     public function mount()
     {
-        $this->agents = Agent::get();
+        $this->agents = Agent::query()
+            ->when($this->searchMatricule, function ($query) {
+                $search = strtolower($this->searchMatricule);
+                $query->whereRaw('LOWER(matricule) LIKE ?', ["%$search%"]);
+            })
+            ->when($this->searchNom, function ($query) {
+                $search = strtolower($this->searchNom);
+                $query->whereRaw('LOWER(nom) LIKE ?', ["%$search%"]);
+            })
+            ->when($this->searchPrenom, function ($query) {
+                $search = strtolower($this->searchPrenom);
+                $query->whereRaw('LOWER(prenom) LIKE ?', ["%$search%"]);
+            })
+            ->orderBy('prenom', 'asc')
+            ->get();
+
         $this->positions = Position::get();
         $this->cadres = Cadre::get();
         $this->corps = Corps::get();
@@ -76,60 +102,60 @@ class Index extends Component
     }
 
     public function SaveAgent()
-{
-    try {
-        // Validation des données
-        $validatedData = $this->validate();
+    {
+        try {
+            // Validation des données
+            $validatedData = $this->validate();
 
-        // Création d'un nouvel agent
-        $agent = new Agent();
-        $agent->matricule = '00000'; // Temporaire
-        $agent->nom = $validatedData['nom'];
-        $agent->prenom = $validatedData['prenom'];
-        $agent->email = $validatedData['email'];
-        $agent->telephone = $validatedData['telephone'];
+            // Création d'un nouvel agent
+            $agent = new Agent();
+            $agent->matricule = '00000'; // Temporaire
+            $agent->nom = $validatedData['nom'];
+            $agent->prenom = $validatedData['prenom'];
+            $agent->email = $validatedData['email'];
+            $agent->telephone = $validatedData['telephone'];
 
-        // Gestion de l'upload de la photo
-        if ($this->photo) {
-            $imageName = Carbon::now()->timestamp . '.' . $this->photo->extension();
-            $this->photo->storeAs('admin/agent/', $imageName);
-            $agent->photo = $imageName;
+            // Gestion de l'upload de la photo
+            if ($this->photo) {
+                $imageName = Carbon::now()->timestamp . '.' . $this->photo->extension();
+                $this->photo->storeAs('admin/agent/', $imageName);
+                $agent->photo = $imageName;
+            }
+
+            // Remplissage des autres champs
+            $agent->date_naissance = $validatedData['date_naissance'];
+            $agent->lieu = $validatedData['lieu_naissance'];
+            $agent->sexe = $validatedData['sexe'];
+            $agent->date_recrutement = $validatedData['date_recrutement'];
+            $agent->date_corps = $validatedData['date_corps'];
+            $agent->date_position = $validatedData['date_position'];
+            $agent->date_ministere = $validatedData['date_ministere'];
+            $agent->date_avancement = $validatedData['date_avancement'];
+            $agent->position_id = $validatedData['position_id'];
+            $agent->cadre_id = $validatedData['cadre_id'];
+            $agent->corps_id = $validatedData['corps_id'];
+            $agent->regimes_id = $validatedData['regime_id'];
+            $agent->ministere_id = $validatedData['ministere_id'];
+
+            // Enregistrement dans la base de données
+            $agent->save();
+
+            // Mise à jour du matricule
+            $matricule = 'MA-' . str_pad($agent->id, 3, '0', STR_PAD_LEFT);
+            $agent->matricule = $matricule;
+            $agent->save();
+
+
+            // Notification de succès
+            toastr()->success('Opération effectuée avec succès');
+            return redirect('admin/agents');
+        } catch (\Exception $e) {
+            dd($e->getMessage());
+            // Notification de l'erreur à l'utilisateur
+            toastr()->error('Une erreur est survenue : ' . $e->getMessage());
+            return redirect()->back()->withInput();
         }
-
-        // Remplissage des autres champs
-        $agent->date_naissance = $validatedData['date_naissance'];
-        $agent->lieu = $validatedData['lieu_naissance'];
-        $agent->sexe = $validatedData['sexe'];
-        $agent->date_recrutement = $validatedData['date_recrutement'];
-        $agent->date_corps = $validatedData['date_corps'];
-        $agent->date_position = $validatedData['date_position'];
-        $agent->date_ministere = $validatedData['date_ministere'];
-        $agent->date_avancement = $validatedData['date_avancement'];
-        $agent->position_id = $validatedData['position_id'];
-        $agent->cadre_id = $validatedData['cadre_id'];
-        $agent->corps_id = $validatedData['corps_id'];
-        $agent->regimes_id = $validatedData['regime_id'];
-        $agent->ministere_id = $validatedData['ministere_id'];
-
-        // Enregistrement dans la base de données
-        $agent->save();
-
-         // Mise à jour du matricule
-         $matricule = 'MA-' . str_pad($agent->id, 3, '0', STR_PAD_LEFT);
-         $agent->matricule = $matricule;
-         $agent->save();
-
-
-        // Notification de succès
-        toastr()->success('Opération effectuée avec succès');
-        return redirect('admin/agents');
-    } catch (\Exception $e) {
-        dd($e->getMessage());
-        // Notification de l'erreur à l'utilisateur
-        toastr()->error('Une erreur est survenue : ' . $e->getMessage());
-        return redirect()->back()->withInput();
     }
-}
 
 
 
@@ -157,6 +183,41 @@ class Index extends Component
             $this->regime_id = $agent->regime_id;
             $this->ministere_id = $agent->ministere_id;
         }
+    }
+
+    public function profile($id)
+    {
+        $this->agentDetail = Agent::find($id);
+        $this->profileAgent = TRUE;
+        $this->createAgent = FALSE;
+        $this->afficherListes = FALSE;
+    }
+
+    public function saveDocument()
+    {
+        $agent = Agent::find($this->agentDetail->id);
+        if ($this->acte_naissance) {
+            $imageActe = Carbon::now()->timestamp . '.' . $this->acte_naissance->extension();
+            $this->acte_naissance->storeAs('admin/acte/', $imageActe);
+            $agent->acte_naissance = $imageActe;
+        }
+
+        if ($this->nationnalite) {
+            $imageNatio = Carbon::now()->timestamp . '.' . $this->nationnalite->extension();
+            $this->nationnalite->storeAs('admin/nationnalite/', $imageNatio);
+            $agent->nationnalite = $imageNatio;
+        }
+
+        if ($this->diplome) {
+            $imageDiplome = Carbon::now()->timestamp . '.' . $this->diplome->extension();
+            $this->diplome->storeAs('admin/diplome/', $imageDiplome);
+            $agent->diplome = $imageDiplome;
+        }
+
+        $agent->save();
+        toastr()->success('Operation effectue avec success');
+        return redirect('admin/agents');
+        
     }
 
     public function closeModal()

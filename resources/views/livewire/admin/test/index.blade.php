@@ -30,7 +30,7 @@
                                 <th>Date Signature</th>
                                 <th>Nauture</th>
                                 <th>Mention</th>
-                                <th>Modifier</th>
+                                <th>Voir Fichier</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -41,9 +41,10 @@
                                     <td>{{ $items->nature->nom }}</td>
                                     <td>{{ $items->mention->nom }}</td>
 
-                                    <td><button type="button" wire:click="edit({{ $items->id }})"
-                                            data-bs-toggle="modal" data-bs-target=".add"
-                                            class="btn btn-primary">Edit</button></td>
+                                    <td>
+                                        <a href="{{ url('uploads/admin/document/' . $items->fichier) }}"
+                                                        target="_blank"  class="btn btn-primary">Fichier</a>
+                                    </td>
                                 </tr>
                             @endforeach
                         </tbody>

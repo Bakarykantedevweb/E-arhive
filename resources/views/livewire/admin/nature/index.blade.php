@@ -19,6 +19,9 @@
     <!-- end page title -->
     <button type="button" class="btn btn-primary waves-effect waves-light mb-3" data-bs-toggle="modal"
         data-bs-target=".add">Ajouter une Nature</button>
+
+    <button type="button" class="btn btn-primary waves-effect waves-light mb-3" data-bs-toggle="modal"
+        data-bs-target=".import">Importer</button>
     <div class="row">
         <div class="col-12">
             <div class="card">

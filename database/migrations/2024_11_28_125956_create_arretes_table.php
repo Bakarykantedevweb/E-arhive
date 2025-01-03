@@ -15,7 +15,9 @@ return new class extends Migration
     {
         Schema::create('arretes', function (Blueprint $table) {
             $table->id();
+            $table->string('type');
             $table->string('numero');
+            $table->string('fichier');
             $table->date('date_signature');
             $table->foreignIdFor(Nature::class)->constrained();
             $table->foreignIdFor(Mention::class)->constrained();

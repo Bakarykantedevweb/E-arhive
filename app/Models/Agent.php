@@ -31,7 +31,7 @@ class Agent extends Model
         return $this->belongsTo(Corps::class);
     }
 
-    public function regime()
+    public function regimes()
     {
         return $this->belongsTo(Regimes::class);
     }

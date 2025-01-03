@@ -1,11 +1,16 @@
 <div class="vertical-menu">
     <!-- LOGO -->
     <div class="navbar-brand-box">
-        <a href="{{ url('admin/dashbord') }}" class="logo logo-dark"> 
-            <span class="logo-sm">
-                E-Archive
-            </span>
-        </a>
+        <a href="{{ url('admin/dashboard') }}" class="logo logo-dark"> <span class="logo-sm">
+                <img src="{{ asset('assets/images/logo.png') }}" alt="" height="22">
+            </span> <span class="logo-lg">
+                <img src="{{ asset('assets/images/logo.png') }}" alt="" height="20">
+            </span> </a>
+        <a href="{{ url('admin/dashboard') }}" class="logo logo-light"> <span class="logo-sm">
+                <img src="{{ asset('assets/images/logo.png') }}" alt="" height="22">
+            </span> <span class="logo-lg">
+                <img src="{{ asset('assets/images/logo.png') }}" alt="" height="20">
+            </span> </a>
     </div>
     <button type="button" class="btn btn-sm px-3 font-size-16 header-item waves-effect vertical-menu-btn"> <i
             class="fa fa-fw fa-bars"></i> </button>
@@ -16,9 +21,9 @@
             <ul class="metismenu list-unstyled" id="side-menu">
                 <li class="menu-title">Menu</li>
                 <li>
-                    <a href="{{ url('admin/dashbord') }}"> 
-                        <i class="iconify " data-icon="uil-home-alt" data-inline="false"></i> 
-                            <span>Tableau de Bord</span>
+                    <a href="{{ url('admin/dashbord') }}">
+                        <i class="iconify " data-icon="uil-home-alt" data-inline="false"></i>
+                        <span>Tableau de Bord</span>
                     </a>
                 </li>
                 <li>
@@ -44,9 +49,10 @@
                     </ul>
                 </li>
                 <li>
-                    <a href="javascript: void(0);" class="has-arrow waves-effect"> <i class="uil-list-ul"></i> <span>Dossiers Personnel</span> </a>
+                    <a href="javascript: void(0);" class="has-arrow waves-effect"> <i class="uil-list-ul"></i>
+                        <span>Dossiers Personnel</span> </a>
                     <ul class="sub-menu" aria-expanded="false">
-                        <li><a href="{{ url('admin/arretes') }}">Arrete</a></li>
+                        <li><a href="{{ url('admin/arretes') }}">Documents</a></li>
                         <li><a href="{{ url('admin/agents') }}">Agents</a></li>
                         <li><a href="#"></a></li>
                         <li><a href="#"></a></li>
